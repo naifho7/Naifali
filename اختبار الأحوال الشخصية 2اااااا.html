@@ -1,0 +1,186 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>اختبار الأحوال الشخصية 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: one centered column; a ledger-style progress strip on top, one question card, feedback opens beneath it */
+:root{
+  --bg:#EEF1F5; --surface:#FFFFFF; --sunk:#F5F7FA; --ink:#151C26; --muted:#5A6576; --line:#D5DCE6;
+  --accent:#27466F; --accent-ink:#FFFFFF; --accent-soft:#E6ECF5; --gold:#9C6E22;
+  --ok:#1C7A45; --ok-soft:#E3F3E9; --bad:#B13636; --bad-soft:#F8E6E6;
+  --f-display:"Amiri","Noto Naskh Arabic","Times New Roman",serif;
+  --f-body:"IBM Plex Sans Arabic","Segoe UI",Tahoma,system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E121A; --surface:#161C27; --sunk:#111621; --ink:#E4E9F0; --muted:#939FB0; --line:#273142;
+  --accent:#8FB0E0; --accent-ink:#0B1220; --accent-soft:#1B2638; --gold:#D3A658;
+  --ok:#55C686; --ok-soft:#15291E; --bad:#E77B7B; --bad-soft:#2E1A1A; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E121A; --surface:#161C27; --sunk:#111621; --ink:#E4E9F0; --muted:#939FB0; --line:#273142;
+  --accent:#8FB0E0; --accent-ink:#0B1220; --accent-soft:#1B2638; --gold:#D3A658;
+  --ok:#55C686; --ok-soft:#15291E; --bad:#E77B7B; --bad-soft:#2E1A1A; color-scheme:dark}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.75;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 48px}
+.wrap{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+header{display:flex;flex-direction:column;gap:4px}
+.eyebrow{font-size:13px;letter-spacing:.02em;color:var(--muted);font-weight:500}
+h1{font-family:var(--f-display);font-size:clamp(26px,5vw,34px);line-height:1.3;margin:0;text-wrap:balance}
+.intro{color:var(--muted);font-size:14.5px;margin:2px 0 0}
+.strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.seg{display:flex;flex-direction:column;gap:5px;min-width:0}
+.seg .lbl{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.seg.cur .lbl{color:var(--accent);font-weight:600}
+.bar{height:7px;background:var(--line);border-radius:4px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px clamp(16px,4vw,28px);display:flex;flex-direction:column;gap:16px}
+.meta{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;font-size:13px;color:var(--muted)}
+.num{font-variant-numeric:tabular-nums;font-weight:600;color:var(--ink)}
+.chip{background:var(--accent-soft);color:var(--accent);padding:1px 10px;border-radius:999px;font-weight:500}
+.q{font-size:clamp(18px,3.4vw,21px);font-weight:600;line-height:1.7;margin:0;text-wrap:pretty}
+.opts{display:grid;gap:10px}
+.opts.tf{grid-template-columns:1fr 1fr}
+.opt{font:inherit;text-align:start;background:var(--sunk);color:var(--ink);border:1.5px solid var(--line);border-radius:10px;padding:12px 14px;cursor:pointer;display:flex;gap:10px;align-items:flex-start;transition:border-color .15s,background .15s}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt:focus-visible,.btn:focus-visible,textarea:focus-visible,.self button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.opt .k{flex:none;width:26px;height:26px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;font-size:13px;font-weight:600;margin-top:1px}
+.opts.tf .opt{justify-content:center;font-weight:600;font-size:17px}
+.opt:disabled{cursor:default}
+.opt.right{border-color:var(--ok);background:var(--ok-soft)}
+.opt.right .k{border-color:var(--ok);background:var(--ok);color:var(--surface)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.opt.wrong .k{border-color:var(--bad);background:var(--bad);color:var(--surface)}
+textarea{font:inherit;width:100%;min-height:150px;resize:vertical;background:var(--sunk);color:var(--ink);border:1.5px solid var(--line);border-radius:10px;padding:12px 14px;line-height:1.7}
+.fb{border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;background:var(--sunk);border:1px solid var(--line)}
+.fb .head{font-weight:700;display:flex;gap:8px;align-items:center}
+.fb.ok{border-color:var(--ok);background:var(--ok-soft)} .fb.ok .head{color:var(--ok)}
+.fb.bad{border-color:var(--bad);background:var(--bad-soft)} .fb.bad .head{color:var(--bad)}
+.fb.model .head{color:var(--gold)}
+.fb ul{margin:0;padding-inline-start:20px;display:flex;flex-direction:column;gap:6px}
+.fb b{color:var(--accent)}
+.src{font-size:12.5px;color:var(--muted)}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:520px;font-size:14.5px;line-height:1.65}
+th,td{padding:10px 12px;text-align:start;vertical-align:top;border-bottom:1px solid var(--line)}
+thead th{background:var(--accent-soft);color:var(--accent);font-weight:700}
+tbody th{font-weight:600;color:var(--ink);background:var(--sunk);width:22%}
+tr:last-child>*{border-bottom:0}
+td+td,th+td,td+th{border-inline-start:1px solid var(--line)}
+.note{font-size:14px;color:var(--muted)}
+.self{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:14px}
+.self button{font:inherit;font-size:14px;background:var(--surface);color:var(--ink);border:1.5px solid var(--line);border-radius:999px;padding:4px 14px;cursor:pointer}
+.self button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.nav{display:flex;gap:10px;justify-content:space-between;align-items:center;flex-wrap:wrap}
+.btn{font:inherit;font-weight:600;border-radius:10px;padding:10px 22px;cursor:pointer;border:1.5px solid var(--accent);background:var(--accent);color:var(--accent-ink)}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn:disabled{opacity:.45;cursor:default}
+.score{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.score div{background:var(--sunk);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column}
+.score span{font-size:13px;color:var(--muted)}
+.score strong{font-size:24px;font-variant-numeric:tabular-nums}
+footer{font-size:12.5px;color:var(--muted);text-align:center}
+@media (max-width:480px){.strip .lbl{font-size:11px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap" dir="rtl" lang="ar">
+  <header>
+    <div class="eyebrow">LAW404 · التركة والوصية · إعداد: نايف المحذوري</div>
+    <h1>اختبار الأحوال الشخصية 2</h1>
+    <p class="intro">يغطي المحاضرات ١–٥ (التركة والوصية كاملة) بأنواع أسئلة الامتحان: صح وخطأ، قضايا في الوصية، قارن، مقالي. أجب عن كل سؤال لتظهر الإجابة، ثم انتقل للتالي.</p>
+  </header>
+  <div class="strip" id="strip" aria-hidden="true"></div>
+  <main id="app" class="card" aria-live="polite"></main>
+  <footer>إعداد: نايف المحذوري · الأسئلة مبنية على محاضرات الدكتور وكتاب المقرر. تُحفظ إجاباتك على جهازك فقط.</footer>
+</div>
+
+<script>
+const DATA = {"tf": [{"q": "عرّف القانون العماني التركة بأنها ما يتركه المتوفى من أموال وحقوق.", "a": true, "why": "(م٢٣٢)", "lesson": "التركة والحقوق المتعلقة بها"}, {"q": "العين المرهونة لا تدخل في التركة عند جميع الفقهاء.", "a": false, "why": "يدخل عند من عرّفها بالإطلاق، وبه أخذ القانون", "lesson": "التركة والحقوق المتعلقة بها"}, {"q": "حق الشفعة وحق النشر للمؤلف من الحقوق المتعلقة بشخص الإنسان التي تدخل في التركة.", "a": true, "why": "", "lesson": "التركة والحقوق المتعلقة بها"}, {"q": "المال المسروق من المورث لا يدخل في تركته لأنه ليس في حيازته يوم وفاته.", "a": false, "why": "يدخل سواء كان في حيازته أو حيازة غيره (مستأجر، مقترض، سارق)", "lesson": "التركة والحقوق المتعلقة بها"}, {"q": "يأتي قضاء الديون في المرتبة الأولى من الحقوق المتعلقة بالتركة.", "a": false, "why": "الأولى نفقات التجهيز (م٢٣٣)", "lesson": "التركة والحقوق المتعلقة بها"}, {"q": "أخذ القانون العماني بتقديم التجهيز على الديون العينية.", "a": true, "why": "", "lesson": "التركة والحقوق المتعلقة بها"}, {"q": "إذا لم تفِ التركة بالتجهيز وجب على من تلزمه نفقة الميت في حياته.", "a": true, "why": "", "lesson": "التركة والحقوق المتعلقة بها"}, {"q": "عند الإباضية تسقط حقوق الله بالموت إلا إذا أوصى بها الميت.", "a": true, "why": "", "lesson": "التركة والحقوق المتعلقة بها"}, {"q": "عند ضيق التركة تقدَّم ديون الخالق على ديون المخلوق عند الإباضية.", "a": false, "why": "تقدم ديون المخلوق", "lesson": "التركة والحقوق المتعلقة بها"}, {"q": "الديون العادية إذا تعدد أصحابها وضاقت التركة تقسم بالمحاصّة.", "a": true, "why": "", "lesson": "التركة والحقوق المتعلقة بها"}, {"q": "ما أقر به المدين عند خروجه للمبارزة يعد دين صحة.", "a": false, "why": "دين مرض حكمًا", "lesson": "التركة والحقوق المتعلقة بها"}, {"q": "يرى الإباضية أن الأجل لا يسقط بموت المدين مطلقًا.", "a": true, "why": "", "lesson": "التركة والحقوق المتعلقة بها"}, {"q": "الهبة تمليك في المآل، والوصية تمليك في الحال.", "a": false, "why": "العكس", "lesson": "مقدمات الوصية"}, {"q": "تقديم الوصية على الدين في الذكر في الآية يدل على تقديمها في التنفيذ.", "a": false, "why": "التقديم في الذكر لا يدل على تقديم الفعل", "lesson": "مقدمات الوصية"}, {"q": "الوصية بإطعام المعزّين وإقامة مجالس العزاء من الوصية المحرمة.", "a": true, "why": "", "lesson": "مقدمات الوصية"}, {"q": "تكره الوصية إذا كان الموصي قليل المال كثير العيال.", "a": true, "why": "", "lesson": "مقدمات الوصية"}, {"q": "الوصية للأقربين مستحبة عند الإباضية.", "a": false, "why": "واجبة عند الإباضية، مستحبة عند الجمهور", "lesson": "مقدمات الوصية"}, {"q": "إذا أوصى لغير الأقربين تبرعًا ولم يوص لهم رُدّ ثلثا الوصية إليهم.", "a": true, "why": "(م٢٢٩/ب)", "lesson": "مقدمات الوصية"}, {"q": "يشترط اتحاد الدين في الوصية كما في الميراث.", "a": false, "why": "يشترط في الميراث لا في الوصية (م٢٠٦)", "lesson": "مقدمات الوصية"}, {"q": "إذا اقترنت الوصية بشرط ينافي المقاصد الشرعية بطلت الوصية والشرط معًا في القانون.", "a": false, "why": "يبطل الشرط وتبقى الوصية (م١٩٩/ب)", "lesson": "مقدمات الوصية"}, {"q": "أجاز القانون الوصية لفئة غير محصورة.", "a": true, "why": "(م٢٠٨/ب)", "lesson": "مقدمات الوصية"}, {"q": "الوصية عقد لازم بمجرد صدور الإيجاب من الموصي.", "a": false, "why": "غير لازم قبل الوفاة وتبطل بالرجوع", "lesson": "الصيغة والموصي"}, {"q": "يرى بعض الحنفية أن للوصية ركنًا واحدًا هو الإيجاب.", "a": true, "why": "", "lesson": "الصيغة والموصي"}, {"q": "الإقرار يخرج من الثلث والوصية من رأس المال.", "a": false, "why": "العكس", "lesson": "الصيغة والموصي"}, {"q": "في القانون لا تنعقد الوصية بالكتابة إلا عند العجز عن العبارة.", "a": false, "why": "الكتابة منزلة العبارة، والإشارة عند العجز عنهما (م٢٠٣)", "lesson": "الصيغة والموصي"}, {"q": "يشترط المالكية القبول لانتقال ملكية الموصى به.", "a": true, "why": "", "lesson": "الصيغة والموصي"}, {"q": "إذا مات الموصى له بعد الموصي ولم يقبل ولم يرد بطلت الوصية في القانون.", "a": false, "why": "ينتقل حق القبول إلى ورثته (م٢١٢)", "lesson": "الصيغة والموصي"}, {"q": "يعتبر سكوت الموصى له ثلاثين يومًا بعد علمه بالوصية رفضًا لها.", "a": false, "why": "يعتبر قبولًا (م٢١٠/ب)", "lesson": "الصيغة والموصي"}, {"q": "الوصية لشخص غير معين لا تحتاج إلى قبول ولا ترد برد أحد.", "a": true, "why": "(م٢٠٩/ج)", "lesson": "الصيغة والموصي"}, {"q": "اشتراط العزوبة على الموصى له شرط صحيح يجب الوفاء به.", "a": false, "why": "شرط فاسد ينافي مقاصد الشريعة", "lesson": "الصيغة والموصي"}, {"q": "لا تصح الوصية بدون شهود باتفاق الفقهاء.", "a": false, "why": "تصح بدون شهود، وقال بعضهم بلزومهما", "lesson": "الصيغة والموصي"}, {"q": "تصح الوصية ممن له أهلية التبرع ولو صدرت في مرض الموت.", "a": true, "why": "(م٢٠٥/أ)", "lesson": "الصيغة والموصي"}, {"q": "يرى الجمهور صحة وصية الصبي المميز فيما يتقرب به إلى الله.", "a": true, "why": "", "lesson": "الصيغة والموصي"}, {"q": "العبرة في خروج الوصية من مال المدين بوقت إنشاء الوصية.", "a": false, "why": "بوقت الوفاة", "lesson": "الصيغة والموصي"}, {"q": "تأجير الموصي للدار الموصى بها يعد رجوعًا عن الوصية.", "a": false, "why": "الإجارة لا تخرجه عن ملكه", "lesson": "الصيغة والموصي"}, {"q": "بيع الموصي للعين الموصى بها رجوع منه عن الوصية.", "a": true, "why": "(م٢٠٥/ج)", "lesson": "الصيغة والموصي"}, {"q": "وصية المدين المفلس باطلة.", "a": false, "why": "صحيحة ولا تنفذ إلا بعد سداد الديون", "lesson": "الصيغة والموصي"}, {"q": "تصح الوصية لغير المسلم ولو اختلفت جنسيته في القانون العماني.", "a": true, "why": "(م٢٠٦)، مع مراعاة عدم كونه حربيًا أو مرتدًا", "lesson": "الموصى له"}, {"q": "قتل الموصى له للموصي خطأً لا يبطل الوصية في القانون العماني.", "a": false, "why": "يبطلها عمدًا أو خطأ إن كان بالغًا عاقلًا (م٢٢٨)", "lesson": "الموصى له"}, {"q": "إذا ضاق الثلث عن الوصايا المتساوية رتبة قسم بينهم قسمة غرماء.", "a": true, "why": "(م٢٣١)", "lesson": "تزاحم الوصايا"}, {"q": "تشترط أهلية التملك الحقيقية في الموصى له المعنوي كالمسجد.", "a": false, "why": "يكفي أن تكون له مصلحة مشروعة يصرف فيها المال", "lesson": "الموصى له"}, {"q": "إذا أوصى لحيوان بطلت الوصية.", "a": true, "why": "ليس أهلًا للتملك", "lesson": "الموصى له"}, {"q": "العبرة بكون الموصى له وارثًا وقت إنشاء الوصية.", "a": false, "why": "وقت وفاة الموصي", "lesson": "الموصى له"}, {"q": "القبول عند الأحناف شرط لزوم وليس ركنًا.", "a": false, "why": "ركن عندهم، وشرط لزوم عند الجمهور", "lesson": "الموصى له"}, {"q": "إذا تعدد الموصى لهم قسم الموصى به بالتساوي ما لم يشترط الموصي التفاوت.", "a": true, "why": "(م٢١٣/ج)", "lesson": "الموصى له"}, {"q": "إذا وضعت المرأة أحد التوأمين ميتًا انفرد الحي بالموصى به للحمل.", "a": true, "why": "(م٢١٣/د)", "lesson": "الموصى له"}, {"q": "الجهالة بالموصى له أخف من الجهالة بالموصى به.", "a": false, "why": "العكس", "lesson": "الموصى به"}, {"q": "عند الإباضية تجوز الوصية بكل المال إن لم يكن للموصي وارث.", "a": true, "why": "", "lesson": "الموصى به"}, {"q": "الموصى له بالتنزيل يصبح وارثًا ويأخذ نصيبه ولو جاوز الثلث.", "a": false, "why": "موصى له لا وارث، وفي حدود الثلث إلا بإجازة (م٢٢٧)", "lesson": "الوصية بالتنزيل"}, {"q": "الديون والضمانات تدخل في تزاحم الوصايا وتخرج من الثلث.", "a": false, "why": "التزاحم في الوصايا المندوبة، والديون من رأس المال", "lesson": "تزاحم الوصايا"}, {"q": "يجوز أن يكون المشرك وصيًا على إنفاذ وصية مسلم.", "a": false, "why": "لا يجوز، ويجوز وصيًا لمثله", "lesson": "الوصي وشروطه"}, {"q": "يجوز أن تكون المرأة وصية على أولادها إن كانت فطنة مأمونة.", "a": true, "why": "", "lesson": "الوصي وشروطه"}, {"q": "الأقربون في الوصية الواجبة هم من يلتقي بالميت في الجد الرابع.", "a": true, "why": "", "lesson": "الوصية الواجبة"}, {"q": "وصية الأقربين خاصة بالفقراء منهم.", "a": false, "why": "مشروعة لجميع الأقربين", "lesson": "الوصية الواجبة"}, {"q": "تصح الوصية بقضاء الصلوات عن الميت.", "a": false, "why": "لا تصح، وتصح بالصيام الواجب", "lesson": "الموصى به"}, {"q": "تجوز الوصية للزوجة مطلقًا.", "a": false, "why": "لا تجوز إلا إن كان حقًا عليه لها", "lesson": "كتابة الوصية"}], "case": [{"q": "توفي سالم عن تركة قدرها ٩٠٬٠٠٠ ريال، وبلغت نفقات تجهيزه ٣٬٠٠٠ ريال، وعليه دين لأحد البنوك قدره ١٥٬٠٠٠ ريال. وكان قد أوصى لصديقه خالد (غير وارث) بمبلغ ٣٠٬٠٠٠ ريال. ورثته ابنان راشدان: أجاز أحدهما الوصية كاملة ورفض الآخر. بيّن كيف توزع التركة.", "lesson": "وصية تجاوز الثلث مع إجازة بعض الورثة", "model": ["الحقوق مرتبة بنص م٢٣٣: التجهيز ثم الدين ثم الوصية ثم الميراث.", "الصافي بعد التجهيز والدين = ٩٠٬٠٠٠ − ٣٬٠٠٠ − ١٥٬٠٠٠ = <b>٧٢٬٠٠٠</b>؛ والثلث يحسب «بعد أداء الحقوق المتعلقة بها» (م٢٠٠) = <b>٢٤٬٠٠٠</b>.", "الوصية لغير وارث فتصح، وتنفذ في الثلث دون إجازة (٢٤٬٠٠٠). الزائد ٦٬٠٠٠ لا ينفذ إلا «بحدود حصة من أجازها من الورثة الراشدين»: حصة المجيز من الزائد النصف = <b>٣٬٠٠٠</b>.", "فيأخذ خالد ٢٧٬٠٠٠. الباقي للورثة = ٧٢٬٠٠٠ − ٢٧٬٠٠٠ = ٤٥٬٠٠٠: الرافض ٢٤٬٠٠٠ (نصف ٤٨٬٠٠٠ لو نفذ الثلث فقط)، والمجيز ٢١٬٠٠٠."]}, {"q": "أوصت فاطمة بمبلغ ١٢٬٠٠٠ ريال (وهو دون الثلث) لجمعية خيرية، ولها خالة فقيرة وأبناء ابن متوفى لا يرثون، ولم توص لهم بشيء. فطالب الأقارب بحقهم. ما الحكم؟", "lesson": "وصية للأجنبي مع وجود أقارب غير وارثين", "model": ["المسألة: الوصية للأقربين. الجمهور: مستحبة، والإباضية: واجبة، وقال ابن بركة: يرجع على الأقربين بثلثي الوصية، وبه أخذ القانون م٢٢٩: «تجب الوصية للأقربين، وإذا لم يوص للأقربين وكانت الوصية لغيرهم على سبيل التبرع رد ثلثا الوصية إليهم». التطبيق: الوصية تبرع لغير الأقربين مع وجود أقارب غير وارثين ← يرد <b>ثلثاها ٨٬٠٠٠</b> للأقربين، وتأخذ الجمعية <b>٤٬٠٠٠</b>. والجمعية يجب أن تكون موجودة وقت إنشاء الوصية (م٢٠٨/ج)."]}, {"q": "أوصى أحمد لكل من سعيد ومحمد بمبلغ ٥٬٠٠٠ ريال. توفي أحمد، ثم توفي سعيد بعده بأسبوع قبل أن يقبل أو يرد، أما محمد فعلم بالوصية وسكت أربعين يومًا ثم أعلن رفضه. فما مصير الوصيتين؟", "lesson": "موت الموصى له قبل القبول، وسكوت موصى له آخر", "model": ["وصية سعيد: في موت الموصى له بعد الموصي قبل القبول ثلاثة أقوال (البطلان، انتقال الوصية لورثته، انتقال حق القبول لورثته)، وأخذ القانون بالثالث م٢١٢ ← <b>ينتقل حق القبول أو الرد إلى ورثة سعيد</b>. وصية محمد: لا يشترط الفور (م٢١٠/أ)، لكن «يعتبر سكوت الموصى له ثلاثين يومًا بعد علمه بالوصية قبولًا لها» (م٢١٠/ب)، فبمضي ثلاثين يومًا <b>تم القبول ولزمت الوصية</b>، فلا أثر لرفضه اللاحق. (لو مات سعيد <b>قبل</b> أحمد لبطلت الوصية بنص م٢٢٨.)"]}, {"q": "أوصى يوسف بسيارته لابن أخيه، وبداره لجمعية تحفيظ. ثم باع السيارة، وأجّر الدار ثلاث سنوات، ورمّم سقفها. ثم توفي. فهل تنفذ الوصيتان؟", "lesson": "الرجوع بالدلالة", "model": ["للموصي الرجوع ما دام حيًا بالاتفاق، صراحةً أو دلالةً، والقانون م٢٠٥/ب-ج: «يعتبر تفويت الموصي للمال المعين الذي أوصى به رجوعًا منه». <b>بيع السيارة</b> تفويت ناقل للملك ← <b>رجوع، فتبطل</b> الوصية بها (وهي أيضًا حالة م٢٢٨/١). أما <b>الإجارة والترميم</b> فلا يخرجان الدار عن ملكه ولا يدلان على الرجوع ← <b>الوصية بالدار باقية</b> وتنفذ في حدود الثلث."]}, {"q": "أوصى ناصر لابنه حمد بقطعة أرض، ولصديقه علي بمبلغ ٤٬٠٠٠ ريال. وأثناء قيادة علي للسيارة صدم ناصر خطأً فمات. علي بالغ عاقل. فما حكم الوصيتين؟", "lesson": "وصية لوارث، وقتل خطأ", "model": ["وصية حمد: «لا وصية لوارث»، وم٢٠٧: «لا وصية لوارث إلا إذا أجازها الباقون من الورثة الراشدين فتنفذ في حصة من أجازها» ← <b>موقوفة على إجازة باقي الورثة</b>. وصية علي: من مبطلات م٢٢٨ قتل الموصى له الموصي «عمدًا كان القتل أو خطأ شريطة أن يكون عاقلًا بالغًا حد المسؤولية الجزائية»، وعلي كذلك ← <b>تبطل</b> قياسًا على حرمان القاتل من الميراث، وقاعدة «من استعجل شيئًا قبل أوانه عوقب بحرمانه». (الكتاب قيّده بالعمد العدوان، والقانون أوسع.)"]}, {"q": "تركة صافية ٤٥٬٠٠٠ ريال. أوصى المتوفى لمسجد بـ٩٬٠٠٠، ولجمعية خيرية بـ١٨٬٠٠٠، ولابن خالته (غير وارث) بـ٣٬٠٠٠ «على ألا يتزوج». لم يجز الورثة ما زاد على الثلث.", "lesson": "تزاحم الوصايا وشرط فاسد", "model": ["الثلث = ١٥٬٠٠٠، ومجموع الوصايا = ٣٠٬٠٠٠ فهو ضعف الثلث ← تزاحم. م٢٣١: قسمة غرماء، فينفذ لكل منهم <b>نصف</b> وصيته: المسجد ٤٬٥٠٠، الجمعية ٩٬٠٠٠، ابن الخالة ١٬٥٠٠. شرط ألا يتزوج <b>شرط فاسد</b> ينافي مقاصد الشريعة، وم١٩٩/ب: «فالشرط باطل» ← <b>يلغى الشرط وتبقى الوصية</b>."]}, {"q": "توفي حمد عن زوجة وأم وابن، وتركته الصافية ٥٦٬٠٠٠ ريال، وكان قد أوصى لابن أخيه سعيد (غير وارث) أن ينزل منزلة الأم. وطالب سعيد بأن يعامل كوارث. فما الحكم وكيف تقسم التركة؟", "lesson": "الوصية بالتنزيل", "model": ["هذه وصية بالتنزيل، م٢٢٦: «التنزيل وصية بإلحاق شخص غير وارث بميراث الموصي وبنصيب معين»، فسعيد <b>موصى له لا وارث</b>، ويستحق مثل نصيب الأم في حدود الثلث (م٢٢٧). أصل المسألة ٢٤: الزوجة ٣، الأم ٤، الابن ١٧. يضاف لسعيد مثل الأم ٤ ← ٢٨ سهمًا، السهم = ٥٦٬٠٠٠ ÷ ٢٨ = ٢٬٠٠٠. سعيد ٨٬٠٠٠ (أقل من الثلث ١٨٬٦٦٧ فتنفذ)، الزوجة ٦٬٠٠٠، الأم ٨٬٠٠٠، الابن ٣٤٬٠٠٠."]}, {"q": "أوصى ناصر لصديقه بسكنى شقته سنة تبدأ من أول محرم، وتوفي بعد مضي أربعة أشهر من تلك المدة. ثم منعه أحد الورثة من السكنى شهرين. فما حق الصديق؟", "lesson": "الوصية بالمنفعة ومنع الورثة", "model": ["الوصية بالمنافع صحيحة عند الجمهور (وم٢٢٢: عين أو منفعة). مات الموصي <b>بعد حلول تاريخ الوصية</b> فينتفع الموصى له <b>بما تبقى</b> وهو ثمانية أشهر، كتلف بعض الموصى به. والمنع من <b>بعض الورثة</b> يوجب على المانع <b>ضمان قيمة المدة</b> (أجرة الشهرين)، <b>ولا يعوض بوقت آخر</b>؛ ولو كان المنع من جميع الورثة لعوض بوقت آخر."]}], "cmp": [{"q": "قارن بين الوصية والميراث.", "lesson": "أسئلة قارن", "cols": ["من حيث", "الميراث", "الوصية"], "rows": [["التشريع", "توقيفي من الله عز وجل", "يحددها الموصي"], ["التمليك", "تمليك قهري", "تمليك اختياري، ومن حيث اشتراط القبول فيها خلاف"], ["انتقال الملك", "بعد الوفاة", "بعد الوفاة"], ["المقدار", "في كل التركة", "في حدود الثلث"], ["مستحقها", "للورثة", "للموصى له، ولا تصح لوارث"], ["الحكم", "واجبة", "واجبة / مستحبة"], ["اشتراط الدين", "يشترط", "لا يشترط"], ["وقت التنفيذ", "بعد تنفيذ الوصية", "قبل توزيع الميراث"]]}, {"q": "قارن بين الوصية والهبة، وبين الوصية والإقرار.", "lesson": "أسئلة قارن", "model": ["الهبة تمليك في الحال، والوصية تمليك في المآل، وللموصي الرجوع حتى وفاته. الإقرار إخبار بحق سابق يخرج من رأس المال ولا يسقط حتى يثبت الأداء، والوصية تبرع يخرج من الثلث. لذا من أوصى بأداء حق عليه فهو إقرار لا وصية."]}, {"q": "قارن بين الديون العينية والديون العادية، وبين ديون الصحة وديون المرض.", "lesson": "أسئلة قارن", "model": ["العينية تعلقت بعين من المال قبل أن تصير تركة (رهن، ثمن مبيع لم يسلم)، والعادية في الذمة غير موثقة بعين، وتقسم بالمحاصّة عند الضيق. دين الصحة ثبت بالبينة أو الإقرار وعُلم بالمعاينة، ودين المرض ما أقر به في مرض الموت أو عند المبارزة أو القصاص ولم يعلم بالمعاينة؛ وهما سواء في الحكم، وعند الضيق يقدم دين الصحة (خلاف)."]}, {"q": "قارن بين آراء الفقهاء في حلول الدين المؤجل بموت المدين.", "lesson": "أسئلة قارن", "model": ["الجمهور (الحنفية، الشافعية، الظاهرية): يحل. المالكية: يحل إلا في ٣ حالات (شرط المدين، قتل الدائن للمدين عمدًا، طلب الغرماء البقاء). الحنابلة: لا يحل إن قدّم الورثة رهنًا بالأقل من الدين أو التركة أو كفيلًا. الإباضية: لا يحل مطلقًا."]}, {"q": "قارن بين الشرط الصحيح والباطل والفاسد في صيغة الوصية.", "lesson": "أسئلة قارن", "model": ["الصحيح: لا يؤثر في أصلها ولا ينافي حكمها، يجب مراعاته (تعليم يتيم). الباطل: ينافي مقتضى العقد ويمنع تمام الملك، تبطل به الوصية (الباقي لمحمود بعد محمد). الفاسد: لا يمس أصلها لكنه يخالف مقاصد الشريعة (ألا يتزوج)، وفي القانون يبطل الشرط وتبقى الوصية (م١٩٩/ب)."]}, {"q": "قارن بين موقف الجمهور والمالكية والقانون من القبول في الوصية.", "lesson": "أسئلة قارن", "model": ["الجمهور: لا يشترط، والملك بالموت كالميراث، وإن مات الموصى له انتقلت لورثته. المالكية: يشترط، والملك بالقبول (أو في الوقت الذي حدده الموصي)، وإن مات انتقل حق القبول لورثته. القانون: يشترط قبول المعين (م٢٠٩)، ولا فور (م٢١٠/أ)، والسكوت ٣٠ يومًا قبول، والملك بعد الوفاة (م٢١٣)، وحق القبول يورث (م٢١٢)."]}, {"q": "قارن بين الوصية الواجبة في القانون العماني وفي القوانين المصري والسوري والأردني.", "lesson": "أسئلة قارن", "model": ["العماني (م٢٢٩): للأقربين عمومًا، وجزاء تركها رد ثلثي الوصية الموجهة لغيرهم، أخذًا بقول الإباضية (ابن بركة). المصري والسوري والأردني: لفرع الولد الذي مات في حياة أبيه أو أمه بمقدار نصيب أصله في حدود الثلث، بشرط أن يكون غير وارث وألا يكون قد أوصى له."]}, {"q": "قارن بين وصية الصبي المميز عند الفقهاء وفي القانون.", "lesson": "أسئلة قارن", "model": ["القول الأول والقانون (م٢٠٥ أهلية التبرع): باطلة مميزًا أو غير مميز، ولا تنقلب صحيحة بالبلوغ. الجمهور: تصح فيما يتقرب به إلى الله لأنها نفع محض ولا تزيل ملكه إلا بعد وفاته."]}, {"q": "قارن بين أركان الوصية الأربعة من حيث التعريف والشروط والسند القانوني.", "lesson": "أسئلة قارن", "cols": ["من حيث", "الصيغة", "الموصي (الواصي)", "الموصى له", "الموصى به"], "rows": [["التعريف", "ما ينشئ به الموصي وصيته من لفظ أو كتابة أو إشارة.", "الشخص الذي صدر عنه تصرف في التركة مضاف إلى ما بعد الموت مقتضاه التمليك بلا عوض.", "من أنشئت الوصية لأجله، وقصد الموصي بره وصلته، وجعله خلفًا له فيما أوصى به.", "المال أو التصرف في التركة مضاف إلى ما بعد الموت مقتضاه التمليك بلا عوض."], ["الشروط", "١) شرط لا يؤثر في أصلها ولا ينافي حكمها: <b>صحيح</b> يجب مراعاته ⁃ ٢) شرط يخل بأصلها وينافي حكمها: <b>باطل</b> وتبطل به الوصية ⁃ ٣) شرط لا يؤثر في أصلها لكنه يخالف مقاصد الشريعة: <b>فاسد</b>، يبطل الشرط وتصح الوصية", "١) أهلًا للتبرع بالمال ⁃ ٢) مختارًا تقع الوصية برضاه ⁃ ٣) مالكًا لما أوصى به ⁃ ٤) غير مدين بدين مستغرق للتركة", "١) موجودًا حقيقة أو تقديرًا كالحمل ⁃ ٢) معلومًا ⁃ ٣) أهلًا للتملك حقيقة كالإنسان أو تقديرًا كالشخص المعنوي ⁃ ٤) ليس قاتلًا للموصي ⁃ ٥) ليس وارثًا ⁃ ٦) ليس جهة معصية ⁃ ٧) ليس مشركًا أو حربيًا ⁃ ٨) قبوله للوصية", "١) ملكًا للموصي ⁃ ٢) مما ينتقل بالإرث ⁃ ٣) متقومًا ⁃ ٤) في حدود ثلث التركة"], ["القانون", "م٢٠٣: تنعقد بالعبارة أو بالكتابة، فإن عجز عنهما فبالإشارة المفهومة.", "م٢٠٥/أ: تصح ممن له أهلية التبرع، ولو صدرت في مرض الموت.", "م٢٠٦: تصح لمن يصح تملكه للموصى به ولو مع اختلاف الدين أو الجنسية.", "م٢٢٢/أ: المعين عقار أو منقول، مثلي أو قيمي، عين أو منفعة."]]}, {"q": "قارن بين الوصية بالتنزيل والميراث.", "lesson": "أسئلة قارن", "model": ["المنزَّل موصى له لا وارث (م٢٢٦)، يأخذ مثل نصيب من نزل منزلته وتضاف أسهمه إلى أصل المسألة، ونصيبه في حدود الثلث إلا بإجازة الورثة (م٢٢٧)؛ أما الوارث فيأخذ نصيبه المقدر شرعًا في كل التركة دون قيد الثلث ولا حاجة لإجازة."]}, {"q": "قارن بين آراء الفقهاء فيما زاد على الثلث، مع موقف القانون.", "lesson": "أسئلة قارن", "model": ["الجمهور: صحيحة نافذة في الثلث، موقوفة في الزائد على الإجازة. البعض: الزائد باطل أصلًا لا يقبل الإجازة، وما يدفعه الورثة هبة منهم. الإباضية: تجوز بكل المال إن لم يكن وارث. القانون م٢٠٠: تنفذ الزيادة بحدود حصة من أجاز من الورثة الراشدين (البالغين العاقلين)."]}, {"q": "قارن بين الوصية الواجبة وجوبًا شرعيًا فقط، والواجبة شرعًا وقضاءً.", "lesson": "أسئلة قارن", "model": ["الأولى: الوصية بحقوق الله والعباد غير الثابتة بوثيقة أو شهادة؛ يأثم بتركها ولا تنفذ بسلطة القانون. الثانية: لصنف من الأقارب حرموا من الميراث لحاجب؛ يقوم القاضي مقام الميت في إعطائهم إن لم يوص (الإباضية وابن حزم ورواية لأحمد، والقوانين العربية، وم٢٢٩ عمانيًا)."]}], "essay": [{"q": "عرّف التركة فقهًا وقانونًا، وبيّن عناصرها والحقوق المتعلقة بها مرتبة مع التأصيل القانوني.", "lesson": "سؤال مقالي", "model": ["التعريفان الفقهيان + م٢٣٢", "العناصر الثلاثة بأمثلتها (أموال، منافع، حقوق بأنواعها الثلاثة) + م٨٥٩", "الحقوق الأربعة م٢٣٣ + المواد ٨٦٦، ٨٧٠، ٨٧٥–٨٧٩، ٨٨١، ٨٨٢ معاملات", "خلاف تقديم التجهيز على الديون العينية."]}, {"q": "تكلم عن ديون الميت: أنواعها، وحكم حقوق الله، وترتيبها عند ضيق التركة.", "lesson": "سؤال مقالي", "model": ["تعريف الدين", "حقوق الله وحقوق العباد", "الخلاف في سقوط حقوق الله (٢ + تفصيل الإباضية)", "العينية والعادية والمحاصّة", "الصحة والمرض", "الحالّة والمؤجلة (٤ أقوال)", "أحاديث التغليظ في الدين."]}, {"q": "عرّف الوصية لغة وفقهًا وقانونًا، واذكر أدلة مشروعيتها وحكمتها.", "lesson": "سؤال مقالي", "model": ["المعاني اللغوية الخمسة", "الإطلاقات الفقهية", "م١٩٨ وم٨٨٨/١ ومعنى الشمول", "الأدلة: القرآن (٣ آيات ووجه الدلالة والنسخ)، السنة (٤ أحاديث)، الإجماع، المعقول", "الحِكَم الست", "عدم لزوم الوصية وحق الرجوع."]}, {"q": "اكتب عن الحكم التكليفي للوصية، مع بيان الوصية الواجبة في القانون العماني.", "lesson": "سؤال مقالي", "model": ["الأحكام الخمسة بأمثلتها وأدلتها (غير مضار، حديث سعد)", "تعريف الوصية الواجبة وشرطاها", "م٢٢٩ ورد الثلثين", "الخلاف بين الجمهور والإباضية", "قول ابن بركة", "موقف القوانين العربية", "إشكالاتها."]}, {"q": "تكلم عن ركن الصيغة في الوصية: الإيجاب والقبول وأحكامهما.", "lesson": "سؤال مقالي", "model": ["الخلاف في عدد الأركان", "ألفاظ الإيجاب وم٢٠١", "الفرق مع الإقرار وم٢٠٠", "اللفظ والكتابة والإشارة والخلاف وم٢٠٣", "القبول: اشتراطه، موت الموصى له، وقت الملك، المسائل، المواد ٢٠٩–٢١٣", "صيغ الوصية والشروط الثلاثة وم١٩٩", "الإشهاد وم٢٠٤."]}, {"q": "بيّن شروط الموصي، وأحكام رجوعه عن الوصية، ومبطلات الوصية في القانون العماني.", "lesson": "سؤال مقالي", "model": ["الشروط الأربعة وخلاف وصية الصبي ووصية المدين (العبرة بوقت الوفاة)", "م٢٠٥", "الرجوع: الاتفاق واستثناء الإباضية، الصريح والدلالة، ما لا يعد رجوعًا", "أحكام المجنون والسكران والمرتد والمفلس والهازل والمكره", "مبطلات م٢٢٨ السبعة."]}, {"q": "تكلم عن الركن الثالث (الموصى له): مفهومه وشروطه وأحكام قبوله ورده وتملكه للموصى به.", "lesson": "سؤال مقالي", "model": ["التعريف والصور الأربع", "الشروط الثمانية بأدلتها (لا وصية لقاتل، لا تجوز لوارث إلا أن يشاء الورثة، لا يتوارث أهل ملتين)", "الموصى له المعنوي والحيوان والميت", "الوصية للذمي", "القبول ركن أم شرط", "الرد", "م٢٠٦، ٢٠٧، ٢٠٨، ٢١١–٢١٣، ٢٢٨."]}, {"q": "اكتب عن الوصية الواجبة (وصية الأقربين): تعريفها وأدلتها وحكمها ومقدارها ومستحقيها وشروطها.", "lesson": "سؤال مقالي", "model": ["أنواع الوجوب", "تصنيف الجمهور والإباضية", "التعريفات الأربعة", "الأدلة ووجه الدلالة", "القائلون بها", "حكم من لم يوص (٣) ومن أوصى بمندوبات (٢)", "م٢٢٩–٢٣٠", "المقدار والجد الرابع والتقسيم", "لمن تجب (حقيقة، حكمًا، معه م٢٤٠)", "الشروط الثلاثة", "المسائل."]}]};
+const SECTIONS=[
+  {key:'tf',name:'صح أو خطأ'},
+  {key:'case',name:'قضايا في الوصية'},
+  {key:'cmp',name:'أسئلة قارن'},
+  {key:'essay',name:'أسئلة مقالية'}
+];
+const Q=[];
+SECTIONS.forEach((s,si)=>DATA[s.key].forEach((q,i)=>Q.push({...q,type:s.key,si,idx:i,count:DATA[s.key].length})));
+const KEY='law404-quiz-v1';
+let st={i:0,ans:{},self:{},text:{}};
+try{const s=JSON.parse(localStorage.getItem(KEY)||'null');if(s&&typeof s.i==='number')st=Object.assign(st,s)}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}};
+const app=document.getElementById('app'),strip=document.getElementById('strip');
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const AR='أبجد';
+
+function drawStrip(){
+  strip.innerHTML=SECTIONS.map((s,si)=>{
+    const qs=Q.filter(q=>q.si===si);const done=qs.filter(q=>isDone(q)).length;
+    const cur=st.i<Q.length&&Q[st.i].si===si;
+    return `<div class="seg${cur?' cur':''}"><span class="lbl">${s.name} ${done}/${qs.length}</span><div class="bar"><i style="width:${done/qs.length*100}%"></i></div></div>`}).join('');
+}
+const gi=q=>q.type+q.idx;
+const isDone=q=>st.ans[gi(q)]!==undefined;
+
+function render(){
+  drawStrip();
+  if(st.i>=Q.length) return renderEnd();
+  const q=Q[st.i],id=gi(q),a=st.ans[id],sec=SECTIONS[q.si];
+  let h=`<div class="meta"><span class="num">${sec.name} · ${q.idx+1} من ${q.count}</span><span class="chip">${esc(q.lesson)}</span></div>
+  <p class="q">${esc(q.q)}</p>`;
+  if(q.type==='tf'){
+    h+=`<div class="opts tf">`+[[true,'صح'],[false,'خطأ']].map(([v,l])=>{
+      let c='';if(a!==undefined){if(v===q.a)c=' right';else if(a===v)c=' wrong'}
+      return `<button class="opt${c}" data-v="${v}" ${a!==undefined?'disabled':''}>${l}</button>`}).join('')+`</div>`;
+    if(a!==undefined){const ok=a===q.a;
+      h+=`<div class="fb ${ok?'ok':'bad'}"><div class="head">${ok?'إجابة صحيحة':'إجابة خاطئة'}</div>
+      <div>العبارة <b>${q.a?'صحيحة':'خاطئة'}</b>.${q.why?' '+esc(q.why):''}</div>${q.src?`<div class="src">${esc(q.src)}</div>`:''}</div>`}
+  }else if(q.type==='mcq'){
+    h+=`<div class="opts">`+q.opts.map((o,k)=>{
+      let c='';if(a!==undefined){if(k===q.a)c=' right';else if(a===k)c=' wrong'}
+      return `<button class="opt${c}" data-v="${k}" ${a!==undefined?'disabled':''}><span class="k">${AR[k]}</span><span>${esc(o)}</span></button>`}).join('')+`</div>`;
+    if(a!==undefined){const ok=a===q.a;
+      h+=`<div class="fb ${ok?'ok':'bad'}"><div class="head">${ok?'إجابة صحيحة':'إجابة خاطئة'}</div>
+      <div>الإجابة الصحيحة: <b>(${AR[q.a]}) ${esc(q.opts[q.a])}</b>${q.why?'. '+esc(q.why):''}</div>${q.src?`<div class="src">${esc(q.src)}</div>`:''}</div>`}
+  }else{
+    h+=`<label for="ta" class="src">اكتب إجابتك هنا، ثم اعرض الإجابة النموذجية وقارن بها:</label>
+    <textarea id="ta" placeholder="إجابتك…">${esc(st.text[id]||'')}</textarea>`;
+    if(a===undefined) h+=`<div><button class="btn ghost" id="reveal">اعرض الإجابة النموذجية</button></div>`;
+    else{
+      h+=`<div class="fb model"><div class="head">الإجابة النموذجية</div>`;
+      if(q.type==='cmp'&&q.rows){
+        h+=`<div class="tbl"><table><thead><tr>${q.cols.map(c=>`<th scope="col">${esc(c)}</th>`).join('')}</tr></thead><tbody>${q.rows.map(r=>`<tr><th scope="row">${esc(r[0])}</th>${r.slice(1).map(c=>`<td>${String(c).replace(/ ⁃ /g,'<br>')}</td>`).join('')}</tr>`).join('')}</tbody></table></div>${q.note?`<div class="note">${esc(q.note)}</div>`:''}${q.model?`<ul>${q.model.map(p=>`<li>${p}</li>`).join('')}</ul>`:''}`;
+      }else h+=`<ul>${q.model.map(p=>`<li>${p}</li>`).join('')}</ul>`;
+      const sv=st.self[id];
+      h+=`<div class="self"><span>قيّم إجابتك:</span>${[['full','كاملة'],['part','جزئية'],['none','ناقصة']].map(([k,l])=>`<button data-s="${k}" aria-pressed="${sv===k}">${l}</button>`).join('')}</div></div>`;
+    }
+  }
+  const last=st.i===Q.length-1;
+  h+=`<div class="nav"><button class="btn ghost" id="prev" ${st.i===0?'disabled':''}>السابق</button>
+  <button class="btn" id="next" ${a===undefined?'disabled':''}>${last?'عرض النتيجة':'التالي'}</button></div>`;
+  app.innerHTML=h;
+  app.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{st.ans[id]=q.type==='tf'?b.dataset.v==='true':+b.dataset.v;save();render();app.querySelector('#next').focus()});
+  const ta=app.querySelector('#ta');if(ta)ta.oninput=()=>{st.text[id]=ta.value;save()};
+  const rv=app.querySelector('#reveal');if(rv)rv.onclick=()=>{st.ans[id]=true;save();render()};
+  app.querySelectorAll('.self button').forEach(b=>b.onclick=()=>{st.self[id]=b.dataset.s;save();render()});
+  app.querySelector('#prev').onclick=()=>{st.i--;save();render();scrollTop()};
+  app.querySelector('#next').onclick=()=>{st.i++;save();render();scrollTop()};
+}
+function scrollTop(){const r=app.getBoundingClientRect();if(r.top<0)window.scrollTo({top:window.scrollY+r.top-90,behavior:'smooth'})}
+function renderEnd(){
+  const sc=t=>{const qs=Q.filter(q=>q.type===t);return [qs.filter(q=>st.ans[gi(q)]===q.a).length,qs.length]};
+  const [tf,tfn]=sc('tf');
+  const wr=Q.filter(q=>q.type!=='tf');const full=wr.filter(q=>st.self[gi(q)]==='full').length;
+  const wrong=Q.filter(q=>q.type==='tf'&&st.ans[gi(q)]!==undefined&&st.ans[gi(q)]!==q.a);
+  app.innerHTML=`<p class="q">انتهى الاختبار</p>
+  <div class="score"><div><span>صح أو خطأ</span><strong>${tf} من ${tfn}</strong></div><div><span>قضايا ومقارنة ومقالية (قيّمتها كاملة)</span><strong>${full} من ${wr.length}</strong></div></div>
+  ${wrong.length?`<div class="fb bad"><div class="head">أسئلة تحتاج مراجعة (${wrong.length})</div><ul>${wrong.map(q=>`<li>${esc(q.q)} <span class="src">(${esc(q.lesson)})</span></li>`).join('')}</ul></div>`:`<div class="fb ok"><div class="head">لا أخطاء في أسئلة صح وخطأ</div></div>`}
+  <div class="nav"><button class="btn ghost" id="back">رجوع للأسئلة</button><button class="btn" id="again">ابدأ من جديد</button></div>`;
+  app.querySelector('#back').onclick=()=>{st.i=Q.length-1;save();render()};
+  app.querySelector('#again').onclick=()=>{st={i:0,ans:{},self:{},text:{}};save();render();scrollTop()};
+}
+render();
+</script>
+
+</body></html>
